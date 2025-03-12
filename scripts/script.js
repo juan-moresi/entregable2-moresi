@@ -121,3 +121,19 @@ class ChatBot {
             document.getElementById('userInput').placeholder = this.messages.placeholder.monto;
         }
     }
+
+    /**
+     * Agrega un mensaje al chat
+     * @param {string} text - Texto del mensaje
+     * @param {string} type - Tipo de mensaje (user/bot/error)
+     */
+    addMessage = (text, type) => {
+        const messagesDiv = document.getElementById('chatMessages');
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${type}-message`;
+        messageDiv.textContent = text;
+        messagesDiv.appendChild(messageDiv);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }; 
+
+    
