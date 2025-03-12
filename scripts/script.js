@@ -150,3 +150,16 @@ class ChatBot {
             toCurrency: upperToCurrency
         };
     }
+
+    /**
+     * Maneja la entrada del usuario según el estado actual
+     * @param {string} input - Entrada del usuario
+     */
+    handleInput = (input) => {
+        if (!this.userName) {
+            this.userName = input;
+            localStorage.setItem('nombreUsuario', input);
+            document.getElementById('userInput').placeholder = this.messages.placeholder.monto;
+            this.addMessage(`${this.messages.mensajes.bienvenida} ${this.userName}! ${this.messages.mensajes.instruccion}`, 'bot');
+            return;
+        }
