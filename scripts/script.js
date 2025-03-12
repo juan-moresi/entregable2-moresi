@@ -163,3 +163,22 @@ class ChatBot {
             this.addMessage(`${this.messages.mensajes.bienvenida} ${this.userName}! ${this.messages.mensajes.instruccion}`, 'bot');
             return;
         }
+
+        // Verifica comando de agregar moneda
+        if (input.toLowerCase() === "agregar moneda") {
+            this.addCurrencyState.step = 0;
+            this.addMessage(this.messages.mensajes.agregarMoneda, 'bot');
+            return;
+        }
+
+        // Maneja adición de moneda si está en proceso
+        if (this.addCurrencyState.step !== null) {
+            this.handleAddCurrency(input);
+            return;
+        }
+
+        //maneja conversión regular
+        this.handleConversionStep(input);
+    }
+
+    
