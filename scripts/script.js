@@ -63,3 +63,21 @@ class CurrencyConverter {
     getSupportedCurrenciesText() {
         return this.supportedCurrencies.join(', ');
     }
+
+    //conversor
+    convert(amount, fromCurrency, toCurrency) {
+        const fromCurrencyData = this.monedas.find(m => m.codigo === fromCurrency);
+        const toCurrencyData = this.monedas.find(m => m.codigo === toCurrency);
+        
+        if (!fromCurrencyData || !toCurrencyData) {
+            throw new Error('Moneda no encontrada');
+        }
+
+        //primero convierte a USD
+        const amountInUSD = amount / fromCurrencyData.tasa;
+        const result = amountInUSD * toCurrencyData.tasa;
+        
+        return parseFloat(result.toFixed(2));
+    }
+}
+
