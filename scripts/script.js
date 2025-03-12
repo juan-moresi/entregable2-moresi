@@ -125,7 +125,7 @@ class ChatBot {
     /**
      * Agrega un mensaje al chat
      * @param {string} text - Texto del mensaje
-     * @param {string} type - Tipo de mensaje (user/bot/error)
+     * @param {string} type - Tipo de mensaje 
      */
     addMessage = (text, type) => {
         const messagesDiv = document.getElementById('chatMessages');
