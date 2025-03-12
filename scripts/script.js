@@ -81,3 +81,43 @@ class CurrencyConverter {
     }
 }
 
+//clase chatbot maneja la interaccion con el usuario
+class ChatBot {
+    constructor() {
+        // Inicializa el convertidor y estado del chat
+        this.converter = new CurrencyConverter();
+        this.userName = '';
+        this.messages = textos;
+        // Carga el historial desde localStorage o inicia uno nuevo
+        this.conversionHistory = JSON.parse(localStorage.getItem('conversionHistory')) || [];
+        
+        // Estado actual de la conversión
+        this.conversionState = {
+            step: 0,         
+            amount: null,
+            fromCurrency: null,
+            toCurrency: null
+        };
+
+        // Estado para agregar moneda
+        this.addCurrencyState = {
+            step: null,      
+            nombre: null,
+            codigo: null
+        };
+
+        this.initialize();
+    }
+
+    //Inicializa el chatbot y configura el estado inicial - Verifica si hay un usuario guardado y muestra el mensaje apropiado
+    
+    initialize() {
+        this.userName = localStorage.getItem('nombreUsuario');
+        if (!this.userName) {
+            this.addMessage(this.messages.mensajes.solicitarNombre, 'bot');
+            document.getElementById('userInput').placeholder = this.messages.placeholder.nombre;
+        } else {
+            this.addMessage(`${this.messages.mensajes.bienvenida} ${this.userName}! ${this.messages.mensajes.instruccion}`, 'bot');
+            document.getElementById('userInput').placeholder = this.messages.placeholder.monto;
+        }
+    }
