@@ -123,19 +123,10 @@ class ChatBot {
     }
 
     /**
-     * Agrega un mensaje al chat
-     * @param {string} text - Texto del mensaje
-     * @param {string} type - Tipo de mensaje 
+     * Analiza la entrada del usuario para extraer los datos de conversión
+     * @param {string} input - Texto ingresado por el usuario en formato "cantidad monedaOrigen a monedaDestino"
+     * @returns {Object} Objeto con monto (amount), moneda origen (fromCurrency) y moneda destino (toCurrency)
      */
-    addMessage = (text, type) => {
-        const messagesDiv = document.getElementById('chatMessages');
-        const messageDiv = document.createElement('div');
-        messageDiv.className = `message ${type}-message`;
-        messageDiv.textContent = text;
-        messagesDiv.appendChild(messageDiv);
-        messagesDiv.scrollTop = messagesDiv.scrollHeight;
-    }; 
-
     parseInput = (input) => {
         const regex = /(\d+)\s+(\w+)\s+a\s+(\w+)/i;
         const match = input.match(regex);
