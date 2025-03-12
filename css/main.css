@@ -130,3 +130,89 @@ body {
     transition: var(--transition);
     font-size: 0.95rem;
 }
+
+#sendBtn, #historyBtn {
+    color: white;
+    transform: translateY(0);
+}
+
+#sendBtn {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+}
+
+#historyBtn {
+    background: linear-gradient(135deg, var(--success-color), var(--secondary-color));
+}
+
+#sendBtn:hover, #historyBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.history-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 400px;
+    height: 100vh;
+    background: var(--surface-color);
+    box-shadow: var(--shadow-lg);
+    display: none;
+    flex-direction: column;
+    z-index: 1000;
+    animation: slideIn 0.3s ease-out;
+}
+
+.history-header {
+    padding: 1.5rem;
+    background: linear-gradient(135deg, var(--success-color), var(--secondary-color));
+    color: white;
+}
+
+.history-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.history-controls {
+    padding: 1rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.history-btn {
+    padding: 0.75rem 1.25rem;
+    border: none;
+    border-radius: var(--border-radius-sm);
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+#closeHistoryBtn {
+    background: var(--text-secondary);
+    color: white;
+}
+
+#clearHistoryBtn {
+    background: var(--error-color);
+    color: white;
+}
+
+.history-content {
+    flex: 1;
+    padding: 1.25rem;
+    overflow-y: auto;
+    background: var(--background-color);
+}
+
+.history-message {
+    background: #fff8f1;
+    color: #9a3412;
+    border: 1px solid #fed7aa;
+    margin-bottom: 0.75rem;
+}
