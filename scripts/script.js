@@ -136,4 +136,26 @@ class ChatBot {
         messagesDiv.scrollTop = messagesDiv.scrollHeight;
     }; 
 
-    
+    parseInput = (input) => {
+        const regex = /(\d+)\s+(\w+)\s+a\s+(\w+)/i;
+        const match = input.match(regex);
+        
+        if (!match) {
+            throw new Error(this.messages.mensajes.formatoInvalido);
+        }
+
+        const [, amount, fromCurrency, toCurrency] = match;
+        const upperFromCurrency = fromCurrency.toUpperCase();
+        const upperToCurrency = toCurrency.toUpperCase();
+
+        if (!this.converter.supportedCurrencies.includes(upperFromCurrency) || 
+            !this.converter.supportedCurrencies.includes(upperToCurrency)) {
+            throw new Error(`Moneda no soportada. Monedas soportadas: ${this.converter.getSupportedCurrenciesText()}`);
+        }
+
+        return {
+            amount: parseFloat(amount),
+            fromCurrency: upperFromCurrency,
+            toCurrency: upperToCurrency
+        };
+    }
