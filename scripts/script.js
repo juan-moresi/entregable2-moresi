@@ -33,3 +33,33 @@ const textos = {
         borrarChat: "Borrar Chat"
     },
 };
+
+//clase contructora para manejar las monedas
+class CurrencyConverter {
+    constructor() {
+        // Cargar monedas guardadas desde localStorage o usar valores predeterminados
+        this.monedas = JSON.parse(localStorage.getItem('currencies')) || [
+            { codigo: "USD", nombre: "Dólares estadounidenses", tasa: 1.0 },
+            { codigo: "EUR", nombre: "Euros", tasa: 0.96 },
+            { codigo: "ARS", nombre: "Pesos argentinos", tasa: 1057.77 },
+        ];
+        this.supportedCurrencies = this.monedas.map(moneda => moneda.codigo);
+    }
+
+    //agregar moneda
+    addCurrency(nombre, codigo, tasa) {
+        codigo = codigo.toUpperCase();
+        if (this.supportedCurrencies.includes(codigo)) {
+            throw new Error(textos.mensajes.monedaExistente);
+        }
+        this.monedas.push({ codigo, nombre, tasa: parseFloat(tasa) });
+        this.supportedCurrencies = this.monedas.map(moneda => moneda.codigo);
+        
+        // guardado en el localstorage
+        localStorage.setItem('currencies', JSON.stringify(this.monedas));
+    }
+
+    //lista de monedas soportadas
+    getSupportedCurrenciesText() {
+        return this.supportedCurrencies.join(', ');
+    }
