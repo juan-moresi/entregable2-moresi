@@ -216,3 +216,17 @@ body {
     border: 1px solid #fed7aa;
     margin-bottom: 0.75rem;
 }
+
+
+/* key frames */
+
+@keyframes slideIn {
+    from { 
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to { 
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
