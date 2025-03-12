@@ -68,3 +68,65 @@ body {
     overflow-y: auto;
     scroll-behavior: smooth;
 }
+
+.message {
+    margin-bottom: 1rem;
+    padding: 1rem 1.25rem;
+    border-radius: var(--border-radius-md);
+    max-width: 80%;
+    box-shadow: var(--shadow-sm);
+    line-height: 1.5;
+    animation: slideIn 0.3s ease-out;
+    font-size: 1rem;
+}
+
+.user-message {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+    color: white;
+    margin-left: auto;
+    border-bottom-right-radius: 0;
+}
+
+.bot-message {
+    background: white;
+    color: var(--text-primary);
+    margin-right: auto;
+    border-bottom-left-radius: 0;
+    border: 1px solid var(--border-color);
+}
+
+.chat-input {
+    padding: 1.25rem;
+    background: var(--surface-color);
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+#userInput {
+    flex: 1;
+    padding: 0.875rem 1.25rem;
+    border: 2px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    font-size: 1rem;
+    color: var(--text-primary);
+    transition: var(--transition);
+    background: var(--background-color);
+}
+
+#userInput:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.chat-input button {
+    padding: 0.875rem 1.5rem;
+    font-weight: 600;
+    border-radius: var(--border-radius-md);
+    border: none;
+    cursor: pointer;
+    transition: var(--transition);
+    font-size: 0.95rem;
+}
