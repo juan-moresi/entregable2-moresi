@@ -252,3 +252,170 @@ body {
         border-color: #9a3412;
     }
 }
+
+/*mediaquery*/
+@media (max-width: 768px) {
+    .main-container {
+        padding: 0;
+        height: 100vh;
+        margin: 0;
+    }
+
+    .chat-container {
+        border-radius: 0;
+        height: 100vh;
+    }
+
+    .chat-header {
+        border-radius: 0;
+    }
+
+    .chat-messages {
+        height: calc(100vh - 130px);
+    }
+
+    .chat-input {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: var(--surface-color);
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .history-panel {
+        width: 100%;
+        animation: slideInUp 0.3s ease-out;
+    }
+
+    @keyframes slideInUp {
+        from { 
+            opacity: 0;
+            transform: translateY(100%);
+        }
+        to { 
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .history-controls {
+        position: sticky;
+        top: 0;
+        background: var(--surface-color);
+        z-index: 1001;
+    }
+
+    .chat-input button {
+        padding: 0.75rem;
+        min-width: 60px;
+    }
+}
+
+/*mejoras historial panel*/
+.history-panel.active {
+    display: flex;
+    animation: slideIn 0.3s ease-out;
+}
+
+
+.history-controls {
+    position: sticky;
+    top: 0;
+    background: var(--surface-color);
+    z-index: 1001;
+}
+
+.chat-input button {
+    padding: 0.75rem;
+    min-width: 60px;
+}
+.currency-name {
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+.bot-message .currency-name {
+    color: #4CAF50;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 8px;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.close-modal {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-modal:hover {
+    color: #000;
+}
+
+.currency-item {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.currency-item:last-child {
+    border-bottom: none;
+}
+
+/*mostar monedas*/
+#showCurrenciesBtn {
+    padding: 8px 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 0 5px;
+}
+
+#showCurrenciesBtn:hover {
+    background-color: #45a049;
+}
+
+/*borrar chat*/
+#clearChatBtn {
+    margin: 10px;
+    padding: 5px 10px;
+    background-color: #ff4444;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#clearChatBtn:hover {
+    background-color: #cc0000;
+}
