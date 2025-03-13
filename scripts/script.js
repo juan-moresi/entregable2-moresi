@@ -123,10 +123,19 @@ class ChatBot {
     }
 
     /**
-     * Analiza la entrada del usuario para extraer los datos de conversión
-     * @param {string} input - Texto ingresado por el usuario en formato "cantidad monedaOrigen a monedaDestino"
-     * @param {string} input objeto con monto (amount), moneda origen (fromCurrency) y moneda destino (toCurrency)
+     * Agrega un mensaje al chat
+     * @param {string} text - Texto del mensaje
+     * @param {string} type - Tipo de mensaje (user/bot/error)
      */
+    addMessage = (text, type) => {
+        const messagesDiv = document.getElementById('chatMessages');
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${type}-message`;
+        messageDiv.textContent = text;
+        messagesDiv.appendChild(messageDiv);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    };  
+
     parseInput = (input) => {
         const regex = /(\d+)\s+(\w+)\s+a\s+(\w+)/i;
         const match = input.match(regex);
@@ -250,7 +259,7 @@ class ChatBot {
     handleConversionStep = (input) => {
         try {
             switch (this.conversionState.step) {
-                case 0: // Monto
+                case 0: //Monto
                     const amount = parseFloat(input);
                     if (isNaN(amount)) {
                         throw new Error(this.messages.mensajes.formatoInvalido);
@@ -529,3 +538,10 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('historyBtn').addEventListener('click', () => {
         chatBot.showHistory();
     });
+
+    // Add currency button event listener
+    document.getElementById('addCurrencyBtn').addEventListener('click', () => {
+        chatBot.addMessage("agregar moneda", 'user');
+        chatBot.handleInput("agregar moneda");
+    });
+});
