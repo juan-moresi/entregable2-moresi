@@ -242,3 +242,80 @@ class ChatBot {
             this.addMessage(this.messages.mensajes.instruccion, 'bot');
         }
     }
+
+    /**
+     * Procesa cada paso de la conversión
+     * @param {string} input - Entrada del usuario para el paso actual
+     */
+    handleConversionStep = (input) => {
+        try {
+            switch (this.conversionState.step) {
+                case 0: // Monto
+                    const amount = parseFloat(input);
+                    if (isNaN(amount)) {
+                        throw new Error(this.messages.mensajes.formatoInvalido);
+                    }
+                    this.conversionState.amount = amount;
+                    this.conversionState.step = 1;
+                    document.getElementById('userInput').value = ''; // Clear input
+                    document.getElementById('userInput').placeholder = this.messages.placeholder.moneda;
+                    this.addMessage(this.messages.mensajes.pedirMonedaOrigen, 'bot');
+                    break;
+
+                case 1: // Moneda origen
+                    const fromCurrency = input.toUpperCase();
+                    if (!this.converter.supportedCurrencies.includes(fromCurrency)) {
+                        throw new Error(`Moneda no soportada. Monedas soportadas: ${this.converter.getSupportedCurrenciesText()}`);
+                    }
+                    this.conversionState.fromCurrency = fromCurrency;
+                    this.conversionState.step = 2;
+                    document.getElementById('userInput').value = ''; // Clear input
+                    document.getElementById('userInput').placeholder = this.messages.placeholder.moneda;
+                    this.addMessage(this.messages.mensajes.pedirMonedaDestino, 'bot');
+                    break;
+
+                case 2: // Moneda destino
+                    const toCurrency = input.toUpperCase();
+                    if (!this.converter.supportedCurrencies.includes(toCurrency)) {
+                        throw new Error(`Moneda no soportada. Monedas soportadas: ${this.converter.getSupportedCurrenciesText()}`);
+                    }
+                    this.conversionState.toCurrency = toCurrency;
+                    
+                    // Realizar la conversión
+                    const result = this.converter.convert(
+                        this.conversionState.amount,
+                        this.conversionState.fromCurrency,
+                        toCurrency
+                    );
+
+                    const monedaOrigen = this.converter.monedas.find(m => m.codigo === this.conversionState.fromCurrency).nombre;
+                    const monedaDestino = this.converter.monedas.find(m => m.codigo === toCurrency).nombre;
+
+                    // guarda en el historial
+                    this.conversionHistory.push({
+                        timestamp: new Date(),
+                        from: this.conversionState.fromCurrency,
+                        to: toCurrency,
+                        amount: this.conversionState.amount,
+                        result: result
+                    });
+                    localStorage.setItem('conversionHistory', JSON.stringify(this.conversionHistory));
+
+                    // Mostrar resultado
+                    this.addMessage(
+                        `${this.conversionState.amount} ${monedaOrigen} = ${result} ${monedaDestino}`,
+                        'bot'
+                    );
+
+                    // Reiniciar para nueva conversión
+                    this.conversionState.step = 0;
+                    document.getElementById('userInput').value = ''; // Clear input
+                    document.getElementById('userInput').placeholder = this.messages.placeholder.monto;
+                    this.addMessage(this.messages.mensajes.instruccion, 'bot');
+                    break;
+            }
+        } catch (error) {
+            this.addMessage(error.message, 'error');
+            document.getElementById('userInput').value = ''; // Clear input on error
+        }
+    }
