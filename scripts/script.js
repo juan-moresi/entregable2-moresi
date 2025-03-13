@@ -503,4 +503,16 @@ document.addEventListener('DOMContentLoaded', () => {
             modal.style.display = 'none';
         }
     });
-    
+
+    //boton enviar
+    document.getElementById('sendBtn').addEventListener('click', () => {
+        const input = document.getElementById('userInput');
+        const message = input.value.trim();
+        
+        if (message) {
+            chatBot.addMessage(message, 'user');
+            chatBot.handleInput(message);
+            input.value = ''; 
+            input.focus(); 
+        }
+    });
