@@ -181,4 +181,64 @@ class ChatBot {
         this.handleConversionStep(input);
     }
 
-    
+    //agregar moneda y guardarla en el localstorage 
+    handleAddCurrency = (input) => {
+        try {
+            switch (this.addCurrencyState.step) {
+                case 0: // Nombre
+                    this.addCurrencyState.nombre = input;
+                    this.addCurrencyState.step = 1;
+                    this.addMessage(this.messages.mensajes.ingresarCodigo, 'bot');
+                    break;
+
+                case 1: // Código
+                    if (input.length !== 3) {
+                        throw new Error(this.messages.mensajes.codigoInvalido);
+                    }
+                    this.addCurrencyState.codigo = input.toUpperCase();
+                    this.addCurrencyState.step = 2;
+                    this.addMessage(this.messages.mensajes.ingresarTasa, 'bot');
+                    break;
+
+                case 2: // Tasa
+                    const tasa = parseFloat(input);
+                    if (isNaN(tasa) || tasa <= 0) {
+                        throw new Error(this.messages.mensajes.tasaInvalida);
+                    }
+                    
+                    this.converter.addCurrency(
+                        this.addCurrencyState.nombre,
+                        this.addCurrencyState.codigo,
+                        tasa
+                    );
+
+                    // Add to conversion history
+                    this.conversionHistory.push({
+                        timestamp: new Date(),
+                        type: 'newCurrency',
+                        currency: {
+                            nombre: this.addCurrencyState.nombre,
+                            codigo: this.addCurrencyState.codigo,
+                            tasa: tasa
+                        }
+                    });
+                    localStorage.setItem('conversionHistory', JSON.stringify(this.conversionHistory));
+
+                    this.addMessage(this.messages.mensajes.monedaAgregada, 'bot');
+                    this.addMessage(this.messages.mensajes.instruccion, 'bot');
+                    
+                    // Reset states
+                    this.addCurrencyState.step = null;
+                    this.addCurrencyState.nombre = null;
+                    this.addCurrencyState.codigo = null;
+                    break;
+            }
+        } catch (error) {
+            this.addMessage(error.message, 'error');
+            // Reset on error
+            this.addCurrencyState.step = null;
+            this.addCurrencyState.nombre = null;
+            this.addCurrencyState.codigo = null;
+            this.addMessage(this.messages.mensajes.instruccion, 'bot');
+        }
+    }
