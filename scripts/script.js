@@ -524,3 +524,8 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault(); 
         }
     });
+
+    //  botón de historial
+    document.getElementById('historyBtn').addEventListener('click', () => {
+        chatBot.showHistory();
+    });
