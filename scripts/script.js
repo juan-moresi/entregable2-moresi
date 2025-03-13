@@ -539,7 +539,7 @@ document.addEventListener('DOMContentLoaded', () => {
         chatBot.showHistory();
     });
 
-    // Add currency button event listener
+    // boton agrgar moneda
     document.getElementById('addCurrencyBtn').addEventListener('click', () => {
         chatBot.addMessage("agregar moneda", 'user');
         chatBot.handleInput("agregar moneda");
