@@ -230,3 +230,25 @@ body {
         transform: translateX(0);
     }
 }
+
+
+/* Dark mode  */
+@media (prefers-color-scheme: dark) {
+    body {
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    }
+
+    .chat-container {
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    #userInput {
+        background: var(--surface-color);
+    }
+
+    .history-message {
+        background: #451a03;
+        color: #fed7aa;
+        border-color: #9a3412;
+    }
+}
