@@ -516,3 +516,11 @@ document.addEventListener('DOMContentLoaded', () => {
             input.focus(); 
         }
     });
+
+    // tecla Enter
+    document.getElementById('userInput').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            document.getElementById('sendBtn').click();
+            e.preventDefault(); 
+        }
+    });
