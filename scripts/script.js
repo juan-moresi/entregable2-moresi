@@ -319,3 +319,66 @@ class ChatBot {
             document.getElementById('userInput').value = ''; // Clear input on error
         }
     }
+
+    /**
+     * Muestra el panel de historial de conversiones
+     * Permite ver, cerrar y borrar el historial
+     */
+    showHistory = () => {
+        const historyPanel = document.querySelector('.history-panel');
+        const historyContent = document.createElement('div');
+        historyContent.className = 'history-content';
+        
+        historyPanel.innerHTML = ''; 
+        
+        // agrega un Heades
+        const header = document.createElement('div');
+        header.className = 'history-header';
+        header.innerHTML = '<h2>Historial</h2>';
+        historyPanel.appendChild(header);
+        
+        // agrega los controles
+        const controls = document.createElement('div');
+        controls.className = 'history-controls';
+        controls.innerHTML = `
+            <button id="clearHistoryBtn" class="history-btn">${this.messages.botones.borrarHistorial}</button>
+            <button id="closeHistoryBtn" class="history-btn">${this.messages.botones.cerrarHistorial}</button>
+        `;
+        historyPanel.appendChild(controls);
+        
+        // agrega el contenido
+        if (this.conversionHistory.length === 0) {
+            historyContent.innerHTML = `<div class="message bot-message">${this.messages.mensajes.sinHistorial}</div>`;
+        } else {
+            const historyHtml = this.conversionHistory.map(entry => {
+                const fecha = new Date(entry.timestamp).toLocaleString();
+                if (entry.type === 'newCurrency') {
+                    return `<div class="message history-message">
+                        ${fecha}: Nueva moneda agregada - ${entry.currency.nombre} (${entry.currency.codigo}) - Tasa: ${entry.currency.tasa}
+                    </div>`;
+                } else {
+                    const monedaOrigen = this.converter.monedas.find(m => m.codigo === entry.from).nombre;
+                    const monedaDestino = this.converter.monedas.find(m => m.codigo === entry.to).nombre;
+                    return `<div class="message history-message">
+                        ${fecha}: ${entry.amount} ${monedaOrigen} = ${entry.result} ${monedaDestino}
+                    </div>`;
+                }
+            }).join('');
+            historyContent.innerHTML = historyHtml;
+        }
+        historyPanel.appendChild(historyContent);
+        historyPanel.classList.add('active');
+
+        // agrega eventos
+        document.getElementById('closeHistoryBtn').addEventListener('click', () => {
+            historyPanel.classList.remove('active');
+        });
+
+        document.getElementById('clearHistoryBtn').addEventListener('click', () => {
+            if (confirm('¿Estás seguro de que quieres borrar todo el historial?')) {
+                this.conversionHistory = [];
+                localStorage.removeItem('conversionHistory');
+                this.showHistory();
+            }
+        });
+    }
