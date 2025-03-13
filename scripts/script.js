@@ -402,3 +402,53 @@ class ChatBot {
     }
 }
 
+// coddigo de inicializacion
+document.addEventListener('DOMContentLoaded', () => {
+    // Create chatbot instance
+    window.chatBot = new ChatBot();
+
+    const chatInput = document.querySelector('.chat-input');
+
+    // agregar boton de borrar chat
+    if (!document.getElementById('clearChatBtn')) {
+        const clearChatButton = document.createElement('button');
+        clearChatButton.textContent = textos.botones.borrarChat;
+        clearChatButton.id = 'clearChatBtn';
+        document.getElementById('chatMessages').parentElement.insertBefore(
+            clearChatButton,
+            document.getElementById('chatMessages')
+        );
+    }
+
+    // agrega boton de borrar al evento
+    document.getElementById('clearChatBtn').addEventListener('click', () => {
+        if (confirm('¿Estás seguro de que quieres borrar el chat?')) {
+            chatBot.clearChat();
+        }
+    });
+
+        // boton de historial
+        if (!document.getElementById('historyBtn')) {
+            const historyButton = document.createElement('button');
+            historyButton.textContent = textos.botones.verHistorial;
+            historyButton.id = 'historyBtn';
+            chatInput.appendChild(historyButton);
+        }
+
+        // boton de agregar moneda
+    if (!document.getElementById('addCurrencyBtn')) {
+        const addCurrencyButton = document.createElement('button');
+        addCurrencyButton.textContent = textos.botones.agregarMoneda;
+        addCurrencyButton.id = 'addCurrencyBtn';
+        chatInput.appendChild(addCurrencyButton);
+    }
+
+    //agrega boton para ver monedas disponibles
+    if (!document.getElementById('showCurrenciesBtn')) {
+        const showCurrenciesBtn = document.createElement('button');
+        showCurrenciesBtn.textContent = 'Ver Monedas';
+        showCurrenciesBtn.id = 'showCurrenciesBtn';
+        chatInput.appendChild(showCurrenciesBtn);
+
+        // ver si agregar evento
+    }
