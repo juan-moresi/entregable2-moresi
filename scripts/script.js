@@ -452,3 +452,55 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // ver si agregar evento
     }
+
+    // modal para monedas disponibles
+    if (!document.getElementById('currenciesModal')) {
+        const modal = document.createElement('div');
+        modal.id = 'currenciesModal';
+        modal.className = 'modal';
+        modal.innerHTML = `
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Monedas Disponibles</h2>
+                    <span class="close-modal">&times;</span>
+                </div>
+                <div class="modal-body" id="currenciesList"></div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+    }
+
+    // agregar evento para modal
+    const modal = document.getElementById('currenciesModal');
+    const showCurrenciesBtn = document.getElementById('showCurrenciesBtn');
+    const closeModal = modal.querySelector('.close-modal');
+
+    function updateCurrenciesList() {
+        const currenciesList = document.getElementById('currenciesList');
+        currenciesList.innerHTML = '';
+        chatBot.converter.monedas.forEach(moneda => {
+            const currencyDiv = document.createElement('div');
+            currencyDiv.className = 'currency-item';
+            currencyDiv.innerHTML = `
+                <span>${moneda.nombre} (${moneda.codigo})</span>
+                <span>Tasa: ${moneda.tasa}</span>
+            `;
+            currenciesList.appendChild(currencyDiv);
+        });
+    }
+
+    showCurrenciesBtn.addEventListener('click', () => {
+        updateCurrenciesList();
+        modal.style.display = 'block';
+    });
+
+    closeModal.addEventListener('click', () => {
+        modal.style.display = 'none';
+    });
+
+    window.addEventListener('click', (event) => {
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    });
+    
