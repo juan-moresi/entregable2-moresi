@@ -382,3 +382,23 @@ class ChatBot {
             }
         });
     }
+
+    //mostrar monedas disponibles
+    showCurrencies = () => {
+        this.addMessage('Monedas disponibles:', 'bot');
+        
+        this.converter.monedas.forEach(moneda => {
+            this.addMessage(`* ${moneda.nombre} (${moneda.codigo})`, 'bot');
+        });
+        
+        this.addMessage(this.messages.mensajes.instruccion, 'bot');
+    }
+
+    //borrar chat
+    clearChat = () => {
+        const messagesDiv = document.getElementById('chatMessages');
+        messagesDiv.innerHTML = '';
+        this.addMessage(this.messages.mensajes.instruccion, 'bot');
+    }
+}
+
