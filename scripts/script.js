@@ -125,7 +125,7 @@ class ChatBot {
     /**
      * Analiza la entrada del usuario para extraer los datos de conversión
      * @param {string} input - Texto ingresado por el usuario en formato "cantidad monedaOrigen a monedaDestino"
-     * @returns {Object} Objeto con monto (amount), moneda origen (fromCurrency) y moneda destino (toCurrency)
+     * @param {string} input objeto con monto (amount), moneda origen (fromCurrency) y moneda destino (toCurrency)
      */
     parseInput = (input) => {
         const regex = /(\d+)\s+(\w+)\s+a\s+(\w+)/i;
