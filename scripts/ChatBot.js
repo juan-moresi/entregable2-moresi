@@ -589,3 +589,58 @@ clearChat() {
         }
     }
 }
+
+// Inicializa autocompletado
+initAutocomplete() {
+    const userInput = document.getElementById('userInput');
+    if (!userInput) return;
+    
+    // Crear contenedor
+    const autocompleteContainer = document.createElement('div');
+    autocompleteContainer.className = 'autocomplete-container';
+    userInput.parentNode.appendChild(autocompleteContainer);
+    
+    // Agregar evento de entrada
+    userInput.addEventListener('input', () => {
+        // Solo mostrar sugerencias en pasos de moneda
+        if (this.conversionState.step !== 1 && this.conversionState.step !== 2) {
+            autocompleteContainer.innerHTML = '';
+            return;
+        }
+        
+        const inputValue = userInput.value.trim().toUpperCase();
+        if (!inputValue) {
+            autocompleteContainer.innerHTML = '';
+            return;
+        }
+        
+        // Obtener monedas coincidentes
+        const currencies = this.converter.getAllCurrencies();
+        const matches = currencies.filter(currency => 
+            currency.codigo.includes(inputValue) || 
+            currency.nombre.toLowerCase().includes(inputValue.toLowerCase())
+        );
+        
+        // Mostrar coincidencias
+        autocompleteContainer.innerHTML = '';
+        if (matches.length > 0) {
+            matches.forEach(currency => {
+                const suggestion = document.createElement('div');
+                suggestion.className = 'autocomplete-item';
+                suggestion.innerHTML = `<strong>${currency.codigo}</strong> - ${currency.nombre}`;
+                suggestion.addEventListener('click', () => {
+                    userInput.value = currency.codigo;
+                    autocompleteContainer.innerHTML = '';
+                    userInput.focus();
+                });
+                autocompleteContainer.appendChild(suggestion);
+            });
+        }
+    });
+    
+    // Ocultar sugerencias al hacer clic fuera
+    document.addEventListener('click', (e) => {
+        if (e.target !== userInput && !autocompleteContainer.contains(e.target)) {
+            autocompleteContainer.innerHTML = '';
+        }
+    });
