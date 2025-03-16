@@ -187,3 +187,99 @@ class ChatBot {
         localStorage.setItem('currencies', JSON.stringify(this.converter.monedas));
         localStorage.setItem('conversionHistory', JSON.stringify(this.conversionHistory));
     }
+
+    // Pasos para la conversion
+    handleConversionStep(input) {
+        try {
+            switch (this.conversionState.step) {
+                case 0: // Monto
+                    const amount = parseFloat(input);
+                    if (isNaN(amount)) {
+                        throw new Error(this.messages.mensajes.formatoInvalido);
+                    }
+                    this.conversionState.amount = amount;
+                    this.conversionState.step = 1;
+                    this.updateInputPlaceholder(this.messages.placeholder.moneda);
+                    this.addMessage(this.messages.mensajes.pedirMonedaOrigen, 'bot');
+                    break;
+
+                case 1: // Moneda origen
+                    this.validateAndSetCurrency(input, 'fromCurrency');
+                    this.conversionState.step = 2;
+                    this.updateInputPlaceholder(this.messages.placeholder.moneda);
+                    this.addMessage(this.messages.mensajes.pedirMonedaDestino, 'bot');
+                    break;
+                    
+                case 2: // Moneda destino
+                    this.validateAndSetCurrency(input, 'toCurrency');
+                    this.performConversion();
+                    break;
+            }
+        } catch (error) {
+            this.addMessage(error.message, 'error');
+            this.resetConversionState();
+        }
+    }
+
+    // Valida y establece una moneda
+    validateAndSetCurrency(input, stateProperty) {
+        const currency = input.trim().toUpperCase();
+        if (!this.converter.supportedCurrencies.includes(currency)) {
+            throw new Error(`Moneda no soportada. Monedas soportadas: ${this.converter.getSupportedCurrenciesText()}`);
+        }
+        this.conversionState[stateProperty] = currency;
+        this.clearUserInput();
+    }
+
+    // Realiza la conversión
+    performConversion() {
+        const { amount, fromCurrency, toCurrency } = this.conversionState;
+        const result = this.converter.convert(amount, fromCurrency, toCurrency);
+        
+        const monedaOrigen = this.converter.monedas.find(m => m.codigo === fromCurrency).nombre;
+        const monedaDestino = this.converter.monedas.find(m => m.codigo === toCurrency).nombre;
+
+    // Guardar en historial
+    this.conversionHistory.push({
+        timestamp: new Date(),
+        from: fromCurrency,
+        to: toCurrency,
+        amount: amount,
+        result: result
+    });
+    
+    this.saveState();
+
+    // Mostrar resultado
+    this.showConversionResult(amount, monedaOrigen, result, monedaDestino);
+        
+    // Reiniciar para próxima conversión
+    this.resetConversionState();
+
+    // Muestra el resultado de la conversión
+    showConversionResult(amount, fromName, result, toName) {
+        const resultMessage = document.createElement('div');
+        resultMessage.className = 'message bot-message conversion-result';
+        resultMessage.textContent = `${amount} ${fromName} = ${result} ${toName}`;
+        document.getElementById('chatMessages').appendChild(resultMessage);
+        document.getElementById('chatMessages').scrollTop = document.getElementById('chatMessages').scrollHeight;
+    }
+    
+    // Reinicia el estado de conversión
+    resetConversionState() {
+        this.conversionState.step = 0;
+        this.conversionState.amount = null;
+        this.conversionState.fromCurrency = null;
+        this.updateInputPlaceholder(this.messages.placeholder.monto);
+        this.addMessage(this.messages.mensajes.instruccion, 'bot');
+
+    // Actualiza el placeholder del input
+    updateInputPlaceholder(text) {
+        const userInput = document.getElementById('userInput');
+        if (userInput) userInput.placeholder = text;
+    }
+    
+    // Limpia el campo de entrada
+    clearUserInput() {
+        const userInput = document.getElementById('userInput');
+        if (userInput) userInput.value = '';
