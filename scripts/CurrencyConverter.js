@@ -1,11 +1,11 @@
-/* Clase para conversiones de moneda */
+/** Clase para conversiones de moneda */
 class CurrencyConverter {
     constructor() {
         // Monedas desde localStorage o predeterminadas
         this.monedas = JSON.parse(localStorage.getItem('currencies')) || [
             { codigo: "USD", nombre: "Dólares estadounidenses", tasa: 1.0 },
-            { codigo: "EUR", nombre: "Euros", tasa: 0.96 },
-            { codigo: "ARS", nombre: "Pesos argentinos", tasa: 1057.77 },
+            { codigo: "EUR", nombre: "Euros", tasa: 0.92 },
+            { codigo: "ARS", nombre: "Pesos argentinos", tasa: 1062.29 },
         ];
         this.supportedCurrencies = this.monedas.map(moneda => moneda.codigo);
     }
@@ -22,7 +22,7 @@ class CurrencyConverter {
     getSupportedCurrenciesText() {
         return this.supportedCurrencies.join(', ');
     }
-
+    
     // Obtener todas las monedas
     getAllCurrencies() {
         return this.monedas;
