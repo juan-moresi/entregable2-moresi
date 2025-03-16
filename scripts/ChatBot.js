@@ -52,4 +52,25 @@ class ChatBot {
         this.addClearChatButton();  
     }
 
-    
+    // Inicializa el chatbot
+    initialize() {
+        const userInput = document.getElementById('userInput');
+        
+        if (!this.userName) {
+            this.addMessage(this.messages.mensajes.solicitarNombre, 'bot');
+            userInput.placeholder = this.messages.placeholder.nombre;
+        } else {
+            this.addMessage(`${this.messages.mensajes.bienvenida} ${this.userName}! ${this.messages.mensajes.instruccion}`, 'bot');
+            userInput.placeholder = this.messages.placeholder.monto;
+        }
+    }
+
+    // Agrega un mensaje al chat
+    addMessage(text, type) {
+        const messagesDiv = document.getElementById('chatMessages');
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${type}-message`;
+        messageDiv.textContent = text;
+        messagesDiv.appendChild(messageDiv);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
