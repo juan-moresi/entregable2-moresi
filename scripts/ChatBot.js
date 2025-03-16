@@ -644,3 +644,49 @@ initAutocomplete() {
             autocompleteContainer.innerHTML = '';
         }
     });
+
+    // Navegación con teclado
+    userInput.addEventListener('keydown', (e) => {
+        const items = autocompleteContainer.querySelectorAll('.autocomplete-item');
+        if (!items.length) return;
+        
+        let activeIndex = Array.from(items).findIndex(item => 
+            item.classList.contains('active')
+        );
+        
+        switch (e.key) {
+            case 'ArrowDown':
+                e.preventDefault();
+                if (activeIndex < 0) {
+                    items[0].classList.add('active');
+                } else {
+                    items[activeIndex].classList.remove('active');
+                    activeIndex = (activeIndex + 1) % items.length;
+                    items[activeIndex].classList.add('active');
+                }
+                break;
+                
+            case 'ArrowUp':
+                e.preventDefault();
+                if (activeIndex < 0) {
+                    items[items.length - 1].classList.add('active');
+                } else {
+                    items[activeIndex].classList.remove('active');
+                    activeIndex = (activeIndex - 1 + items.length) % items.length;
+                    items[activeIndex].classList.add('active');
+                }
+                break;
+                
+            case 'Enter':
+                if (activeIndex >= 0) {
+                    e.preventDefault();
+                    items[activeIndex].click();
+                }
+                break;
+                
+            case 'Escape':
+                autocompleteContainer.innerHTML = '';
+                break;
+        }
+    });
+}
