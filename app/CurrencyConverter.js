@@ -22,3 +22,8 @@ class CurrencyConverter {
     getSupportedCurrenciesText() {
         return this.supportedCurrencies.join(', ');
     }
+
+    // Obtener todas las monedas
+    getAllCurrencies() {
+        return this.monedas;
+    }
