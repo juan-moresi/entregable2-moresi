@@ -176,3 +176,14 @@ class ChatBot {
         this.saveState();
         this.addMessage(this.messages.mensajes.monedaAgregada, 'bot');
     }
+
+    // Guarda el estado en localStorage
+    saveState() {
+        // Limitar el historial a las últimas 7 conversiones
+        if (this.conversionHistory.length > 7) {
+            this.conversionHistory = this.conversionHistory.slice(-7);
+        }
+        
+        localStorage.setItem('currencies', JSON.stringify(this.converter.monedas));
+        localStorage.setItem('conversionHistory', JSON.stringify(this.conversionHistory));
+    }
