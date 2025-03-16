@@ -61,4 +61,50 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // Configurar botones de paneles
+    const buttonActions = {
+        'historyBtn': () => chatbot.showHistory(),
+        'showCurrenciesBtn': () => chatbot.showCurrencies(),
+        'addCurrencyBtn': () => {
+            const currencyFormPanel = document.querySelector('.currency-form-panel');
+            if (currencyFormPanel) currencyFormPanel.classList.add('show');
+        }
+    };
+    
+    Object.entries(buttonActions).forEach(([id, action]) => {
+        const button = document.getElementById(id);
+        if (button) {
+            button.addEventListener('click', () => {
+                closeAllPanels();
+                action();
+            });
+        }
+    });
+    
+    const closeButtons = [
+        { selector: '.close-history', resetForm: false },
+        { selector: '.close-currencies', resetForm: false },
+        { selector: '.close-currency-form', resetForm: true }
+    ];
+    
+    closeButtons.forEach(btn => {
+        const closeBtn = document.querySelector(btn.selector);
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                closeAllPanels();
+                if (btn.resetForm) {
+                    resetCurrencyForm();
+                }
+            });
+        }
+    });
+    
+    const cancelCurrencyBtn = document.getElementById('cancelCurrency');
+    if (cancelCurrencyBtn) {
+        cancelCurrencyBtn.addEventListener('click', () => {
+            closeAllPanels();
+            resetCurrencyForm();
+        });
+    }
     
