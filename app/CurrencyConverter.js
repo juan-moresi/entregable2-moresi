@@ -27,3 +27,27 @@ class CurrencyConverter {
     getAllCurrencies() {
         return this.monedas;
     }
+
+    convert(amount, fromCurrency, toCurrency) {
+        const fromCurrencyData = this.monedas.find(m => m.codigo === fromCurrency);
+        const toCurrencyData = this.monedas.find(m => m.codigo === toCurrency);
+        
+        if (!fromCurrencyData || !toCurrencyData) {
+            throw new Error('Moneda no encontrada');
+        }
+
+        // Convertir vía USD como moneda base
+        const amountInUSD = amount / fromCurrencyData.tasa;
+        const result = amountInUSD * toCurrencyData.tasa;
+        
+        // Formatear resultado
+        const formatter = new Intl.NumberFormat('es-AR', { 
+            style: 'currency', 
+            currency: toCurrency 
+        });
+        
+        return formatter.format(result);
+    }
+}
+
+export default CurrencyConverter;
