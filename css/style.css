@@ -639,16 +639,16 @@ body {
 /* Estilos para el panel de monedas */
 .currencies-panel {
     position: fixed; top: 50%; left: 50%; 
-    width: 80%; max-width: 600px; max-height: 80vh; /* Tamaño máximo */
+    width: 80%; max-width: 600px; max-height: 80vh; 
     background-color: white; border-radius: var(--border-radius-lg); 
     box-shadow: var(--shadow-lg); padding: 25px; 
     display: flex; flex-direction: column; opacity: 0; z-index: 1000;
-    transform: translate(-50%, -45%); /* Centrado con offset */
+    transform: translate(-50%, -45%); 
     transition: opacity 0.3s, transform 0.3s; overflow: hidden;
 }
 
 .currencies-panel.show {
-    opacity: 1; transform: translate(-50%, -50%); /* Animación de entrada */
+    opacity: 1; transform: translate(-50%, -50%); 
 }
 
 .currencies-panel h2 {
@@ -680,36 +680,36 @@ body {
 }
 
 .currency-search:focus {
-    outline: none; border-color: var(--primary-color); /* Resaltado al enfocar */
+    outline: none; border-color: var(--primary-color); 
     box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
 }
 
 .currencies-table-container {
-    overflow-y: auto; max-height: calc(80vh - 150px); /* Altura dinámica */
+    overflow-y: auto; max-height: calc(80vh - 150px); 
     padding-right: 10px; margin-top: 10px; border-radius: var(--border-radius-md);
 }
 
 .currencies-table {
     width: 100%; border-collapse: separate; 
-    border-spacing: 0 8px; /* Espacio entre filas */
+    border-spacing: 0 8px; 
     margin-top: 10px;
 }
 
 .currencies-table th {
     background-color: rgba(14, 165, 233, 0.1); color: var(--primary-color); font-weight: 600;
-    position: sticky; top: 0; /* Cabecera fija al hacer scroll */
+    position: sticky; top: 0; 
     z-index: 1; border-bottom: 2px solid var(--secondary-color);
 }
 
 .currencies-table tr:hover {
     background-color: rgba(240, 249, 255, 0.7); 
-    transform: translateY(-2px); /* Efecto de elevación */
+    transform: translateY(-2px); 
     box-shadow: var(--shadow-md);
 }
 
-.currency-code-cell { font-weight: 700; color: var(--primary-color); /* Destaca el código */ }
+.currency-code-cell { font-weight: 700; color: var(--primary-color); }
 .currency-name-cell { color: var(--text-primary); }
-.currency-rate-cell { font-weight: 600; color: var(--success-color); /* Color para tasas */ }
+.currency-rate-cell { font-weight: 600; color: var(--success-color);  }
 
 /* Estilos para el formulario de agregar monedas */
 .currency-form-panel {
@@ -718,13 +718,13 @@ body {
     box-shadow: var(--shadow-lg); padding: 25px;
     display: flex; flex-direction: column; opacity: 0; z-index: 1000;
     transform: translate(-50%, -45%); transition: opacity 0.3s, transform 0.3s;
-    background-image: linear-gradient(to bottom right, rgba(79, 70, 229, 0.05), rgba(14, 165, 233, 0.1)); /* Fondo degradado sutil */
-    border: 1px solid rgba(14, 165, 233, 0.2); /* Borde con color */
+    background-image: linear-gradient(to bottom right, rgba(79, 70, 229, 0.05), rgba(14, 165, 233, 0.1)); 
+    border: 1px solid rgba(14, 165, 233, 0.2); 
 }
 
 .currency-form-panel.show { 
-    opacity: 1; transform: translate(-50%, -50%); /* Animación de entrada */
-    animation: formPulse 1s ease-out; /* Animación de pulso al aparecer */
+    opacity: 1; transform: translate(-50%, -50%); 
+    animation: formPulse 1s ease-out; 
 }
 
 @keyframes formPulse {
@@ -734,7 +734,7 @@ body {
 }
 
 .currency-form-panel h2 {
-    margin: -25px -25px 20px -25px; /* Extiende el encabezado */
+    margin: -25px -25px 20px -25px; 
     padding: 1rem; text-align: center; color: white;
     background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
@@ -743,12 +743,151 @@ body {
 }
 
 .currency-form-panel h2::after {
-    content: '💰'; /* Icono de dinero */
+    content: '💰'; 
     position: absolute; left: 15px; top: 50%; transform: translateY(-50%);
     font-size: 1.5rem; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .currency-form { 
-    display: flex; flex-direction: column; gap: 20px; /* Espaciado uniforme */
-    padding: 10px 5px; /* Padding interno */
+    display: flex; flex-direction: column; gap: 20px; 
+    padding: 10px 5px; 
+}
+
+.form-group { 
+    display: flex; flex-direction: column; gap: 8px; 
+    position: relative; 
+    transition: all 0.3s ease;
+}
+
+.form-group:hover {
+    transform: translateY(-2px); 
+}
+
+.form-group label { 
+    font-weight: 600; color: var(--primary-color); 
+    display: flex; align-items: center; gap: 8px;
+    font-size: 1.05rem; 
+}
+
+.form-group label::before {
+    content: ''; width: 8px; height: 8px; 
+    background-color: var(--secondary-color); 
+    border-radius: 50%; 
+}
+
+.form-group input {
+    padding: 14px 15px; border: 2px solid var(--border-color);
+    border-radius: var(--border-radius-md); font-size: 1rem; transition: var(--transition);
+    background-color: rgba(255, 255, 255, 0.9); 
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05); 
+}
+
+.form-group input:focus {
+    outline: none; border-color: var(--primary-color); 
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15), inset 0 2px 4px rgba(0, 0, 0, 0);
+    transform: translateY(-1px); 
+    background-color: white;
+}
+
+.currency-form-buttons {
+    display: flex; justify-content: space-between; gap: 15px; margin-top: 25px;
+    position: relative; 
+}
+
+.currency-form-buttons::before {
+    content: ''; position: absolute; top: -12px; left: 0; right: 0;
+    height: 1px; background: linear-gradient(to right, transparent, var(--border-color), transparent);
+}
+
+.currency-form-buttons button {
+    flex: 1; padding: 14px; border: none; border-radius: var(--border-radius-md);
+    font-weight: 600; cursor: pointer; transition: var(--transition);
+    font-size: 1.05rem; 
+    position: relative; overflow: hidden; 
+}
+
+.submit-currency {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); 
+    color: white; 
+    box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3); 
+}
+
+.submit-currency::before {
+    content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+    transform: translateY(-100%); transition: transform 0.3s ease;
+}
+
+.submit-currency:hover::before {
+    transform: translateY(0); 
+}
+
+.cancel-currency {
+    background-color: var(--background-color); color: var(--text-primary);
+    border: 1px solid var(--border-color) !important;
+}
+
+.currency-form-buttons button:hover {
+    transform: translateY(-3px); 
+    box-shadow: var(--shadow-md);
+}
+
+.submit-currency:hover {
+    box-shadow: 0 6px 15px rgba(79, 70, 229, 0.4); 
+}
+
+.form-error {
+    color: var(--error-color); 
+    font-size: 0.9rem; margin-top: 5px;
+    display: flex; align-items: center; gap: 6px;
+    animation: errorShake 0.4s ease-in-out; 
+}
+
+.form-error::before {
+    content: '⚠️'; font-size: 0.9rem;
+}
+
+@keyframes errorShake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+.close-currency-form {
+    position: absolute; top: 15px; right: 15px; 
+    background: rgba(255, 255, 255, 0.5); border: none;
+    font-size: 1.5rem; color: black; cursor: pointer; 
+    transition: var(--transition); z-index: 10;
+    width: 32px; height: 32px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.close-currency-form:hover { 
+    color: white; transform: rotate(90deg);
+    background: var(--error-color);
+}
+
+/* Media query para el formulario en móviles */
+@media screen and (max-width: 480px) {
+    .currency-form-panel {
+        width: 90%; padding: 20px;
+    }
+    
+    .currency-form-panel h2 {
+        margin: -20px -20px 15px -20px;
+        font-size: 1.3rem; padding: 0.8rem;
+    }
+    
+    .form-group label {
+        font-size: 0.95rem;
+    }
+    
+    .form-group input {
+        padding: 12px;
+    }
+    
+    .currency-form-buttons button {
+        padding: 12px; font-size: 0.95rem;
+    }
 }
