@@ -891,3 +891,8 @@ body {
         padding: 12px; font-size: 0.95rem;
     }
 }
+
+.currency-form-buttons button {
+    padding: 12px; font-size: 0.95rem;
+}
+
