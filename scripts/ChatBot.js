@@ -272,7 +272,7 @@ class ChatBot {
         this.conversionState.fromCurrency = null;
         this.updateInputPlaceholder(this.messages.placeholder.monto);
         this.addMessage(this.messages.mensajes.instruccion, 'bot');
-
+    }
     // Actualiza el placeholder del input
     updateInputPlaceholder(text) {
         const userInput = document.getElementById('userInput');
@@ -283,3 +283,111 @@ class ChatBot {
     clearUserInput() {
         const userInput = document.getElementById('userInput');
         if (userInput) userInput.value = '';
+    }
+
+    // Muestra el historial de conversiones
+    showHistory() {
+        // Eliminar panel existente si lo hay
+        const existingPanel = document.querySelector('.history-panel');
+        if (existingPanel) {
+            existingPanel.classList.remove('show');
+            setTimeout(() => existingPanel.remove(), 300);
+            return;
+        }
+
+        // Crear panel de historial
+        const historyPanel = this.createPanel('history-panel', this.messages.mensajes.historial);
+        
+        // Crear contenedor de botones
+        const buttonsContainer = document.createElement('div');
+        buttonsContainer.className = 'history-panel-buttons';
+        
+        // Agregar botones
+        const closeBtn = this.createButton('close-history', this.messages.botones.cerrarHistorial, 
+            () => this.closePanel(historyPanel));
+        
+        const clearBtn = this.createButton('clear-history', this.messages.botones.borrarHistorial, 
+            () => this.clearHistory(historyPanel));
+        
+        buttonsContainer.appendChild(closeBtn);
+        buttonsContainer.appendChild(clearBtn);
+        historyPanel.appendChild(buttonsContainer);
+
+        // Crear contenedor para elementos del historial
+        const itemsContainer = document.createElement('div');
+        itemsContainer.className = 'history-items-container';
+        historyPanel.appendChild(itemsContainer);
+        
+        // Mostrar elementos del historial o mensaje de vacío
+        if (this.conversionHistory.length === 0) {
+            this.showEmptyHistoryMessage(itemsContainer);
+        } else {
+            this.populateHistoryItems(itemsContainer);
+        }
+        
+        // Mostrar panel con animación
+        this.showPanel(historyPanel);
+    }
+    
+    // Muestra mensaje de historial vacío
+    showEmptyHistoryMessage(container) {
+        const emptyMessage = document.createElement('div');
+        emptyMessage.className = 'empty-history-message';
+        emptyMessage.textContent = this.messages.mensajes.sinHistorial;
+        container.appendChild(emptyMessage);
+    }
+    
+    // Rellena el historial
+    populateHistoryItems(container) {
+        // Ordenar historial por fecha (más reciente primero)
+        const sortedHistory = [...this.conversionHistory].reverse();
+        
+        sortedHistory.forEach(item => {
+            const historyItem = document.createElement('div');
+            historyItem.className = 'history-item';
+            
+            // Formatear fecha
+            const date = new Date(item.timestamp);
+            const formattedDate = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
+            
+            // Crear contenido según tipo de item
+            if (item.type === 'newCurrency') {
+                historyItem.innerHTML = `
+                    <div class="history-date">${formattedDate}</div>
+                    <div class="history-content">
+                        Nueva moneda: <strong>${item.currency.codigo}</strong> (${item.currency.nombre})
+                        <br>Tasa: ${item.currency.tasa} USD
+                    </div>
+                `;
+            } else {
+                // Obtener nombres completos de monedas
+                const monedaOrigen = this.converter.monedas.find(m => m.codigo === item.from)?.nombre || item.from;
+                const monedaDestino = this.converter.monedas.find(m => m.codigo === item.to)?.nombre || item.to;
+                
+                // Mostrar conversión
+                historyItem.innerHTML = `
+                    <div class="history-date">${formattedDate}</div>
+                    <div class="history-content">
+                        <strong>${item.amount} ${item.from}</strong> (${monedaOrigen}) → 
+                        <strong>${item.result} ${item.to}</strong> (${monedaDestino})
+                    </div>
+                `;
+            }
+            
+            container.appendChild(historyItem);
+        });
+    }
+    
+    // Limpia el historial
+    clearHistory(panel) {
+        if (confirm('¿Estás seguro de que quieres borrar todo el historial?')) {
+            this.conversionHistory = [];
+            localStorage.removeItem('conversionHistory');
+            
+            // Actualizar panel
+            panel.remove();
+            this.showHistory();
+            
+            this.addMessage('Historial borrado correctamente.', 'bot');
+        }
+    }
