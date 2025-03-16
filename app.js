@@ -1,5 +1,6 @@
 import ChatBot from './scripts/ChatBot.js';
 
+// Crear una única instancia del chatbot
 let chatbot;
 
 // Función para cerrar todos los paneles
@@ -24,7 +25,7 @@ function resetCurrencyForm() {
     clearFormErrors();
 }
 
-// Función el envío de mensajes del usuario
+// Función para  envío de mensajes del usuario
 function handleUserMessage() {
     const userInput = document.getElementById('userInput');
     const message = userInput.value.trim();
@@ -61,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-
+    
     // Configurar botones de paneles
     const buttonActions = {
         'historyBtn': () => chatbot.showHistory(),
@@ -107,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
             resetCurrencyForm();
         });
     }
-
+    
     // Configurar envío del formulario de monedas
     const currencyForm = document.getElementById('currencyForm');
     if (currencyForm) {
@@ -146,4 +147,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+
     
