@@ -617,3 +617,138 @@ body {
         padding: 0.6rem 1rem; 
     }
 }
+
+/* Media query para tablets */
+@media screen and (min-width: 481px) and (max-width: 768px) {
+    /* Ajustes para el contenedor principal */
+    .main-container {
+        padding: 1.5rem; 
+    }
+    
+    /* Ajuste del botón de borrar chat en tablets */
+    #clearChatBtn {
+        top: 0.75rem; right: 0.75rem;
+    }
+    
+    /* Ajustes para el panel de historial */
+    .history-panel {
+        width: 300px; 
+    }
+}
+
+/* Estilos para el panel de monedas */
+.currencies-panel {
+    position: fixed; top: 50%; left: 50%; 
+    width: 80%; max-width: 600px; max-height: 80vh; /* Tamaño máximo */
+    background-color: white; border-radius: var(--border-radius-lg); 
+    box-shadow: var(--shadow-lg); padding: 25px; 
+    display: flex; flex-direction: column; opacity: 0; z-index: 1000;
+    transform: translate(-50%, -45%); /* Centrado con offset */
+    transition: opacity 0.3s, transform 0.3s; overflow: hidden;
+}
+
+.currencies-panel.show {
+    opacity: 1; transform: translate(-50%, -50%); /* Animación de entrada */
+}
+
+.currencies-panel h2 {
+    margin: 0 0 20px 0; padding: 0.75rem 1rem; text-align: center; color: white;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    border-radius: var(--border-radius-md); font-size: 1.5rem; letter-spacing: 0.5px;
+    box-shadow: var(--shadow-sm);
+}
+
+.close-currencies {
+    position: absolute; top: 32px; right: 35px;
+    background: rgba(255, 255, 255, 0.5); border: none;
+    font-size: 1.5rem; color: black; cursor: pointer;
+    transition: var(--transition); z-index: 10;
+    width: 32px; height: 32px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.close-currencies:hover { 
+    color: white; transform: scale(1.1); 
+    background: var(--error-color);
+}
+
+.currency-search {
+    padding: 10px 15px; margin-bottom: 15px; border: 2px solid var(--border-color);
+    border-radius: var(--border-radius-md); font-size: 1rem; width: 100%;
+    transition: var(--transition);
+}
+
+.currency-search:focus {
+    outline: none; border-color: var(--primary-color); /* Resaltado al enfocar */
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.currencies-table-container {
+    overflow-y: auto; max-height: calc(80vh - 150px); /* Altura dinámica */
+    padding-right: 10px; margin-top: 10px; border-radius: var(--border-radius-md);
+}
+
+.currencies-table {
+    width: 100%; border-collapse: separate; 
+    border-spacing: 0 8px; /* Espacio entre filas */
+    margin-top: 10px;
+}
+
+.currencies-table th {
+    background-color: rgba(14, 165, 233, 0.1); color: var(--primary-color); font-weight: 600;
+    position: sticky; top: 0; /* Cabecera fija al hacer scroll */
+    z-index: 1; border-bottom: 2px solid var(--secondary-color);
+}
+
+.currencies-table tr:hover {
+    background-color: rgba(240, 249, 255, 0.7); 
+    transform: translateY(-2px); /* Efecto de elevación */
+    box-shadow: var(--shadow-md);
+}
+
+.currency-code-cell { font-weight: 700; color: var(--primary-color); /* Destaca el código */ }
+.currency-name-cell { color: var(--text-primary); }
+.currency-rate-cell { font-weight: 600; color: var(--success-color); /* Color para tasas */ }
+
+/* Estilos para el formulario de agregar monedas */
+.currency-form-panel {
+    position: fixed; top: 50%; left: 50%; width: 80%; max-width: 500px; 
+    background-color: white; border-radius: var(--border-radius-lg); 
+    box-shadow: var(--shadow-lg); padding: 25px;
+    display: flex; flex-direction: column; opacity: 0; z-index: 1000;
+    transform: translate(-50%, -45%); transition: opacity 0.3s, transform 0.3s;
+    background-image: linear-gradient(to bottom right, rgba(79, 70, 229, 0.05), rgba(14, 165, 233, 0.1)); /* Fondo degradado sutil */
+    border: 1px solid rgba(14, 165, 233, 0.2); /* Borde con color */
+}
+
+.currency-form-panel.show { 
+    opacity: 1; transform: translate(-50%, -50%); /* Animación de entrada */
+    animation: formPulse 1s ease-out; /* Animación de pulso al aparecer */
+}
+
+@keyframes formPulse {
+    0% { transform: translate(-50%, -50%) scale(0.95); box-shadow: 0 0 0 0 rgba(14, 165, 233, 0.5); }
+    70% { transform: translate(-50%, -50%) scale(1.02); box-shadow: 0 0 0 15px rgba(14, 165, 233, 0); }
+    100% { transform: translate(-50%, -50%) scale(1); }
+}
+
+.currency-form-panel h2 {
+    margin: -25px -25px 20px -25px; /* Extiende el encabezado */
+    padding: 1rem; text-align: center; color: white;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
+    font-size: 1.5rem; letter-spacing: 0.5px; position: relative;
+    box-shadow: var(--shadow-sm);
+}
+
+.currency-form-panel h2::after {
+    content: '💰'; /* Icono de dinero */
+    position: absolute; left: 15px; top: 50%; transform: translateY(-50%);
+    font-size: 1.5rem; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.currency-form { 
+    display: flex; flex-direction: column; gap: 20px; /* Espaciado uniforme */
+    padding: 10px 5px; /* Padding interno */
+}
