@@ -35,3 +35,21 @@ const textos = {
         borrarChat: "Borrar Chat" 
     },
 };
+
+// Clase principal del chatbot
+class ChatBot {
+    constructor() {
+        this.converter = new CurrencyConverter();
+        this.userName = localStorage.getItem('nombreUsuario') || '';
+        this.messages = textos;
+        this.conversionHistory = JSON.parse(localStorage.getItem('conversionHistory')) || [];
+        
+        this.conversionState = { step: 0, amount: null, fromCurrency: null, toCurrency: null };
+        this.addCurrencyState = { step: null, nombre: null, codigo: null };
+
+        this.initialize();
+        this.initAutocomplete();
+        this.addClearChatButton();  
+    }
+
+    
