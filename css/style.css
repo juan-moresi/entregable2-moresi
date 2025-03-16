@@ -543,9 +543,29 @@ body {
 /* Ajustes para el panel de historial en móviles */
 @media screen and (max-width: 480px) {
     .history-panel {
-        width: 100%; /* Panel a pantalla completa */ }
+        width: 100%;  }
     .history-panel h2 {
         font-size: 1.2rem; padding: 1rem; }
     .history-panel-buttons { padding: 0.75rem; }
     .close-history, .clear-history { padding: 0.6rem 1rem; font-size: 0.9rem; }
     
+
+    /* Ajuste del botón de borrar chat en móviles verticales */
+    #clearChatBtn {
+        top: 0.5rem; right: 0.5rem; 
+        padding: 0.4rem 0.8rem; 
+        font-size: 0.85rem; 
+    }
+    
+    /* Ajustes para el contenedor principal */
+    .main-container {
+        padding: 1rem; 
+        gap: 1rem;  
+        height: 98vh; 
+    }
+    
+    /* Ajustes para el encabezado */
+    .chat-header h1 {
+        font-size: 1.4rem; 
+    }
+}
