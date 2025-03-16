@@ -170,3 +170,46 @@ body {
 }
 
 #sendBtn::after { content: '➤'; font-size: 0.9rem; }
+
+/* Contenedor para botones de utilidad */
+.utility-buttons {
+    display: flex; gap: 0.5rem; width: 100%;
+}
+
+.utility-buttons button {
+    flex: 1; color: white; font-weight: 600; padding: 0.875rem 1rem;
+    border-radius: var(--border-radius-md); cursor: pointer; transition: var(--transition);
+    position: relative; overflow: hidden; /* Para efecto de onda */
+}
+
+.utility-buttons button::before {
+    content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(255, 255, 255, 0.1); transform: translateX(-100%); transition: transform 0.3s ease;
+}
+
+.utility-buttons button:hover::before { transform: translateX(0); }
+
+/* Estilos específicos para cada botón de utilidad */
+#historyBtn { background: linear-gradient(135deg, var(--success-color), var(--secondary-color)); }
+#showCurrenciesBtn { background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); }
+#addCurrencyBtn { background: linear-gradient(135deg, var(--secondary-color), var(--success-color)); }
+
+.utility-buttons button:hover, #sendBtn:hover, #historyBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+/* Campo de entrada de texto */
+#userInput {
+    flex: 1; padding: 0.875rem 1.25rem; border: 2px solid var(--border-color);
+    border-radius: var(--border-radius-md); font-size: 1rem; color: var(--text-primary);
+    transition: var(--transition); background: var(--background-color);
+}
+
+#userInput:focus {
+    outline: none; border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1), inset 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+#sendBtn, #historyBtn { color: white; transform: translateY(0); }
+#sendBtn { background: linear-gradient(135deg, var(--primary-color), var(--primary-dark)); }
