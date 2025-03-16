@@ -18,3 +18,46 @@ body {
     overflow: hidden; /* Prevent scrolling */
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
+
+/* Contenedor principal */
+.main-container {
+    display: flex; 
+    width: 100%; 
+    max-width: 1200px; 
+    margin: 0 auto;
+    padding: 1rem; 
+    gap: 2rem; 
+    height: 100vh;
+    box-sizing: border-box; /* Include padding in height calculation */
+}
+
+/* Contenedor del chat */
+.chat-container {
+    flex: 1; 
+    background: var(--surface-color); 
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-lg); 
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(10px);
+    display: flex; 
+    flex-direction: column; 
+    transition: var(--transition);
+    max-height: 100%;
+    overflow: hidden; 
+}
+
+/* Área de mensajes con scroll */
+.chat-messages {
+    flex: 1; 
+    padding: 1.5rem; 
+    background: var(--background-color);
+    background-image: radial-gradient(rgba(14, 165, 233, 0.05) 1px, transparent 1px);
+    background-size: 20px 20px; 
+    overflow-y: auto; 
+    scroll-behavior: smooth; 
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 0; 
+    min-height: 0;
+}
