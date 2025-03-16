@@ -50,10 +50,10 @@ class ChatBot {
         this.initialize();
         this.initAutocomplete();
         this.addClearChatButton();  
-    }
+    }}
 
     // Inicializa el chatbot
-    initialize() {
+    initialize() ;{
         const userInput = document.getElementById('userInput');
         
         if (!this.userName) {
@@ -63,10 +63,10 @@ class ChatBot {
             this.addMessage(`${this.messages.mensajes.bienvenida} ${this.userName}! ${this.messages.mensajes.instruccion}`, 'bot');
             userInput.placeholder = this.messages.placeholder.monto;
         }
-    }
+    };
 
     // Agrega un mensaje al chat
-    addMessage(text, type) {
+    addMessage(text, type) ;{
         const messagesDiv = document.getElementById('chatMessages');
         const messageDiv = document.createElement('div');
         messageDiv.className = `message ${type}-message`;
@@ -76,7 +76,7 @@ class ChatBot {
     }
 
     // Maneja la entrada del usuario
-    handleInput(input) {
+    handleInput(input) ;{
         // Manejo del nombre de usuario
         if (!this.userName) {
             if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(input)) {
@@ -113,7 +113,7 @@ class ChatBot {
     }
 
     // Maneja el proceso de agregar moneda
-    handleAddCurrency(input) {
+    handleAddCurrency(input) ;{
         try {
             switch (this.addCurrencyState.step) {
                 case 0: // Nombre
@@ -155,7 +155,7 @@ class ChatBot {
     }
 
     // Reinicia el estado de agregar moneda
-    resetAddCurrencyState() {
+    resetAddCurrencyState(); {
         this.addCurrencyState.step = null;
         this.addCurrencyState.nombre = null;
         this.addCurrencyState.codigo = null;
@@ -163,7 +163,7 @@ class ChatBot {
     }
 
     // Agrega una nueva moneda
-    addNewCurrency(nombre, codigo, tasa) {
+    addNewCurrency(nombre, codigo, tasa) ;{
         this.converter.addCurrency(nombre, codigo, tasa);
         
         // Agregar al historial
@@ -178,7 +178,7 @@ class ChatBot {
     }
 
     // Guarda el estado en localStorage
-    saveState() {
+    saveState(); {
         // Limitar el historial a las últimas 7 conversiones
         if (this.conversionHistory.length > 7) {
             this.conversionHistory = this.conversionHistory.slice(-7);
@@ -189,7 +189,7 @@ class ChatBot {
     }
 
     // Pasos para la conversion
-    handleConversionStep(input) {
+    handleConversionStep(input) ;{
         try {
             switch (this.conversionState.step) {
                 case 0: // Monto
@@ -222,7 +222,7 @@ class ChatBot {
     }
 
     // Valida y establece una moneda
-    validateAndSetCurrency(input, stateProperty) {
+    validateAndSetCurrency(input, stateProperty); {
         const currency = input.trim().toUpperCase();
         if (!this.converter.supportedCurrencies.includes(currency)) {
             throw new Error(`Moneda no soportada. Monedas soportadas: ${this.converter.getSupportedCurrenciesText()}`);
@@ -232,7 +232,7 @@ class ChatBot {
     }
 
     // Realiza la conversión
-    performConversion() {
+    performConversion(); {
         const { amount, fromCurrency, toCurrency } = this.conversionState;
         const result = this.converter.convert(amount, fromCurrency, toCurrency);
         
@@ -257,7 +257,7 @@ class ChatBot {
     this.resetConversionState();
 
     // Muestra el resultado de la conversión
-    showConversionResult(amount, fromName, result, toName) {
+    showConversionResult(amount, fromName, result, toName); {
         const resultMessage = document.createElement('div');
         resultMessage.className = 'message bot-message conversion-result';
         resultMessage.textContent = `${amount} ${fromName} = ${result} ${toName}`;
@@ -266,7 +266,7 @@ class ChatBot {
     }
     
     // Reinicia el estado de conversión
-    resetConversionState() {
+    resetConversionState(); {
         this.conversionState.step = 0;
         this.conversionState.amount = null;
         this.conversionState.fromCurrency = null;
@@ -274,19 +274,19 @@ class ChatBot {
         this.addMessage(this.messages.mensajes.instruccion, 'bot');
     }
     // Actualiza el placeholder del input
-    updateInputPlaceholder(text) {
+    updateInputPlaceholder(text); {
         const userInput = document.getElementById('userInput');
         if (userInput) userInput.placeholder = text;
     }
     
     // Limpia el campo de entrada
-    clearUserInput() {
+    clearUserInput(); {
         const userInput = document.getElementById('userInput');
         if (userInput) userInput.value = '';
     }
 
     // Muestra el historial de conversiones
-    showHistory() {
+    showHistory(); {
         // Eliminar panel existente si lo hay
         const existingPanel = document.querySelector('.history-panel');
         if (existingPanel) {
@@ -330,7 +330,7 @@ class ChatBot {
     }
     
     // Muestra mensaje de historial vacío
-    showEmptyHistoryMessage(container) {
+    showEmptyHistoryMessage(container); {
         const emptyMessage = document.createElement('div');
         emptyMessage.className = 'empty-history-message';
         emptyMessage.textContent = this.messages.mensajes.sinHistorial;
@@ -338,7 +338,7 @@ class ChatBot {
     }
     
     // Rellena el historial
-    populateHistoryItems(container) {
+    populateHistoryItems(container); {
         // Ordenar historial por fecha (más reciente primero)
         const sortedHistory = [...this.conversionHistory].reverse();
         
@@ -379,7 +379,7 @@ class ChatBot {
     }
     
     // Limpia el historial
-    clearHistory(panel) {
+    clearHistory(panel); {
         if (confirm('¿Estás seguro de que quieres borrar todo el historial?')) {
             this.conversionHistory = [];
             localStorage.removeItem('conversionHistory');
@@ -393,7 +393,7 @@ class ChatBot {
     }
 
     // Crea un panel
-    createPanel(className, title) {
+    createPanel(className, title);{
         const panel = document.createElement('div');
         panel.className = className;
         
@@ -405,7 +405,7 @@ class ChatBot {
     }
 
     // Crea un botón
-    createButton(className, text, onClick) {
+    createButton(className, text, onClick); {
         const button = document.createElement('button');
         button.className = className;
         button.textContent = text;
@@ -414,20 +414,20 @@ class ChatBot {
     }
     
     // Cierra un panel
-    closePanel(panel) {
+    closePanel(panel); {
         panel.classList.remove('show');
         setTimeout(() => panel.remove(), 300);
     }
     
     // Muestra un panel
-    showPanel(panel) {
+    showPanel(panel); {
         document.body.appendChild(panel);
         panel.offsetHeight; // Force reflow
         panel.classList.add('show');
     }
     
     // Muestra panel de monedas disponibles
-    showCurrencies() {
+    showCurrencies() ;{
         const existingPanel = document.querySelector('.currencies-panel');
         if (existingPanel) {
             existingPanel.classList.remove('show');
@@ -550,7 +550,7 @@ class ChatBot {
 }
 
 // Agrega botón para borrar chat
-addClearChatButton() {
+addClearChatButton(); {
     const chatHeader = document.querySelector('.chat-header');
     if (!chatHeader) return;
     
@@ -572,7 +572,7 @@ addClearChatButton() {
 }
 
 // Borra todos los mensajes
-clearChat() {
+clearChat(); {
     const confirmClear = confirm('¿Estás seguro de que quieres borrar todo el chat?');
     
     if (confirmClear) {
@@ -591,7 +591,7 @@ clearChat() {
 }
 
 // Inicializa autocompletado
-initAutocomplete() {
+initAutocomplete() ;{
     const userInput = document.getElementById('userInput');
     if (!userInput) return;
     
@@ -692,7 +692,7 @@ initAutocomplete() {
 }
 
 // Agrega moneda desde formulario
-addCurrencyFromForm(name, code, rate) {
+addCurrencyFromForm(name, code, rate); {
     try {
         // Validar entradas
         if (!name || !code || !rate) return false;
