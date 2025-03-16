@@ -74,3 +74,105 @@ class ChatBot {
         messagesDiv.appendChild(messageDiv);
         messagesDiv.scrollTop = messagesDiv.scrollHeight;
     }
+
+    // Maneja la entrada del usuario
+    handleInput(input) {
+        // Manejo del nombre de usuario
+        if (!this.userName) {
+            if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(input)) {
+                this.addMessage("Por favor ingresa un nombre válido (solo letras)", 'error');
+                return;
+            }
+            
+            this.userName = input;
+            localStorage.setItem('nombreUsuario', input);
+            document.getElementById('userInput').placeholder = this.messages.placeholder.monto;
+            this.addMessage(`${this.messages.mensajes.bienvenida} ${this.userName}! ${this.messages.mensajes.instruccion}`, 'bot');
+            
+            // Habilitar botones
+            document.querySelectorAll('.utility-buttons button').forEach(button => {
+                button.disabled = false;
+            });
+            
+            return;
+        }
+
+        // Verifica comando de agregar moneda
+        if (input.toLowerCase() === "agregar moneda") {
+            this.addCurrencyState.step = 0;
+            this.addMessage(this.messages.mensajes.agregarMoneda, 'bot');
+            return;
+        }
+
+        // Maneja adición de moneda o conversión
+        if (this.addCurrencyState.step !== null) {
+            this.handleAddCurrency(input);
+        } else {
+            this.handleConversionStep(input);
+        }
+    }
+
+    // Maneja el proceso de agregar moneda
+    handleAddCurrency(input) {
+        try {
+            switch (this.addCurrencyState.step) {
+                case 0: // Nombre
+                    this.addCurrencyState.nombre = input;
+                    this.addCurrencyState.step = 1;
+                    this.addMessage(this.messages.mensajes.ingresarCodigo, 'bot');
+                    break;
+
+                case 1: // Código
+                    const cleanCode = input.trim();
+                    if (cleanCode.length !== 3) {
+                        throw new Error(this.messages.mensajes.codigoInvalido);
+                    }
+                    this.addCurrencyState.codigo = cleanCode.toUpperCase();
+                    this.addCurrencyState.step = 2;
+                    this.addMessage(this.messages.mensajes.ingresarTasa, 'bot');
+                    break;
+
+                case 2: // Tasa
+                    const tasa = parseFloat(input);
+                    if (isNaN(tasa) || tasa <= 0) {
+                        throw new Error(this.messages.mensajes.tasaInvalida);
+                    }
+                    
+                    this.addNewCurrency(
+                        this.addCurrencyState.nombre,
+                        this.addCurrencyState.codigo,
+                        tasa
+                    );
+                    
+                    // Reiniciar estados
+                    this.resetAddCurrencyState();
+                    break;
+            }
+        } catch (error) {
+            this.addMessage(error.message, 'error');
+            this.resetAddCurrencyState();
+        }
+    }
+
+    // Reinicia el estado de agregar moneda
+    resetAddCurrencyState() {
+        this.addCurrencyState.step = null;
+        this.addCurrencyState.nombre = null;
+        this.addCurrencyState.codigo = null;
+        this.addMessage(this.messages.mensajes.instruccion, 'bot');
+    }
+
+    // Agrega una nueva moneda
+    addNewCurrency(nombre, codigo, tasa) {
+        this.converter.addCurrency(nombre, codigo, tasa);
+        
+        // Agregar al historial
+        this.conversionHistory.push({
+            timestamp: new Date(),
+            type: 'newCurrency',
+            currency: { nombre, codigo, tasa }
+        });
+        
+        this.saveState();
+        this.addMessage(this.messages.mensajes.monedaAgregada, 'bot');
+    }
