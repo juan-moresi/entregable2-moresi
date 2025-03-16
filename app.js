@@ -107,4 +107,43 @@ document.addEventListener('DOMContentLoaded', () => {
             resetCurrencyForm();
         });
     }
+
+    // Configurar envío del formulario de monedas
+    const currencyForm = document.getElementById('currencyForm');
+    if (currencyForm) {
+        currencyForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            clearFormErrors();
+            
+            const nombre = document.getElementById('currencyName').value.trim();
+            const codigo = document.getElementById('currencyCode').value.trim();
+            const tasa = document.getElementById('currencyRate').value;
+            
+            let isValid = true;
+            const validationRules = [
+                { id: 'nameError', condition: !nombre, message: 'El nombre es obligatorio' },
+                { id: 'codeError', condition: !codigo, message: 'El código es obligatorio' },
+                { id: 'codeError', condition: codigo.length !== 3, message: 'El código debe tener exactamente 3 letras' },
+                { id: 'rateError', condition: !tasa, message: 'La tasa es obligatoria' },
+                { id: 'rateError', condition: parseFloat(tasa) <= 0, message: 'La tasa debe ser un número positivo' }
+            ];
+            
+            validationRules.forEach(rule => {
+                if (rule.condition) {
+                    document.getElementById(rule.id).textContent = rule.message;
+                    isValid = false;
+                }
+            });
+            
+            if (isValid) {
+                const success = chatbot.addCurrencyFromForm(nombre, codigo, tasa);
+                
+                if (success) {
+                    closeAllPanels();
+                    resetCurrencyForm();
+                }
+            }
+        });
+    }
+});
     
