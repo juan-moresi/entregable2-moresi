@@ -932,10 +932,11 @@ body {
 }
 
 /* diseño responsive */
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 720px) {
     .chat-container {
-        width: 95%;
-        max-width: 100%;
+        width: 50%;
+        max-width: 90%;
+        max-height: 80%;
         margin: 10px auto;
         height: 90vh;
     }
