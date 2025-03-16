@@ -1053,6 +1053,7 @@ body {
     .chat-container {
         height: 85vh;
         padding-bottom: env(safe-area-inset-bottom);
+        max-height: 85%;
     }
     
     .chat-messages {
