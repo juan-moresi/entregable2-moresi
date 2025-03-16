@@ -569,3 +569,51 @@ body {
         font-size: 1.4rem; 
     }
 }
+
+/* Media query para dispositivos móviles en horizontal */
+@media screen and (max-height: 480px) and (orientation: landscape) {
+    /* Ajustes para el contenedor principal */
+    .main-container {
+        height: auto; 
+        min-height: 98vh; 
+        padding: 0.75rem; 
+    }
+    
+    /* Ajustes para el encabezado */
+    .chat-header {
+        padding: 0.75rem; 
+    }
+    
+    .chat-header h1 {
+        font-size: 1.2rem; 
+    }
+    
+    /* Ajuste del botón de borrar chat en móviles horizontales */
+    #clearChatBtn {
+        top: 0.4rem; right: 0.4rem; 
+        padding: 0.3rem 0.6rem;
+        font-size: 0.8rem; 
+    }
+    
+    /* Ajustes para el área de entrada */
+    .chat-input {
+        padding: 0.75rem; 
+        gap: 0.5rem; 
+    }
+    
+    /* Ajustes para los botones de utilidad */
+    .utility-buttons button {
+        padding: 0.6rem 0.75rem; 
+        font-size: 0.85rem; 
+    }
+    
+    /* Ajustes para el campo de entrada */
+    #userInput {
+        padding: 0.6rem 1rem; 
+    }
+    
+    /* Ajustes para el botón de enviar */
+    #sendBtn {
+        padding: 0.6rem 1rem; 
+    }
+}
