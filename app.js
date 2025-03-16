@@ -23,3 +23,42 @@ function resetCurrencyForm() {
     if (currencyForm) currencyForm.reset();
     clearFormErrors();
 }
+
+// Función el envío de mensajes del usuario
+function handleUserMessage() {
+    const userInput = document.getElementById('userInput');
+    const message = userInput.value.trim();
+    
+    if (message) {
+        chatbot.addMessage(message, 'user');
+        chatbot.handleInput(message);
+        userInput.value = '';
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Inicializar chatbot
+    chatbot = new ChatBot();
+    
+    // Deshabilitar botones si no hay usuario guardado
+    if (!localStorage.getItem('nombreUsuario')) {
+        document.querySelectorAll('.utility-buttons button').forEach(button => {
+            button.disabled = true;
+        });
+    }
+    
+    const sendBtn = document.getElementById('sendBtn');
+    const userInput = document.getElementById('userInput');
+    
+    if (sendBtn) {
+        sendBtn.addEventListener('click', handleUserMessage);
+    }
+    
+    if (userInput) {
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                handleUserMessage();
+            }
+        });
+    }
+    
