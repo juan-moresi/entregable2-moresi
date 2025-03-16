@@ -391,3 +391,160 @@ class ChatBot {
             this.addMessage('Historial borrado correctamente.', 'bot');
         }
     }
+
+    // Crea un panel
+    createPanel(className, title) {
+        const panel = document.createElement('div');
+        panel.className = className;
+        
+        const header = document.createElement('h2');
+        header.textContent = title;
+        panel.appendChild(header);
+        
+        return panel;
+    }
+
+    // Crea un botón
+    createButton(className, text, onClick) {
+        const button = document.createElement('button');
+        button.className = className;
+        button.textContent = text;
+        button.onclick = onClick;
+        return button;
+    }
+    
+    // Cierra un panel
+    closePanel(panel) {
+        panel.classList.remove('show');
+        setTimeout(() => panel.remove(), 300);
+    }
+    
+    // Muestra un panel
+    showPanel(panel) {
+        document.body.appendChild(panel);
+        panel.offsetHeight; // Force reflow
+        panel.classList.add('show');
+    }
+    
+    // Muestra panel de monedas disponibles
+    showCurrencies() {
+        const existingPanel = document.querySelector('.currencies-panel');
+        if (existingPanel) {
+            existingPanel.classList.remove('show');
+            setTimeout(() => existingPanel.remove(), 300);
+            return;
+        }
+
+    // Crear panel
+    const currenciesPanel = document.createElement('div');
+    currenciesPanel.className = 'currencies-panel';
+    
+    // Crear encabezado
+    const header = document.createElement('h2');
+    header.textContent = 'Monedas Disponibles';
+    currenciesPanel.appendChild(header);
+
+    // Crear botón de cierre
+    const closeBtn = document.createElement('button');
+    closeBtn.className = 'close-currencies';
+    closeBtn.innerHTML = '&times;';
+    closeBtn.onclick = () => {
+        currenciesPanel.classList.remove('show');
+        setTimeout(() => currenciesPanel.remove(), 300);
+    };
+    currenciesPanel.appendChild(closeBtn);
+    
+    // Crear campo de búsqueda
+    const searchInput = document.createElement('input');
+    searchInput.type = 'text';
+    searchInput.className = 'currency-search';
+    searchInput.placeholder = 'Buscar moneda...';
+    currenciesPanel.appendChild(searchInput);
+    
+    // Crear contenedor de tabla
+    const tableContainer = document.createElement('div');
+    tableContainer.className = 'currencies-table-container';
+    currenciesPanel.appendChild(tableContainer);
+
+    // Crear tabla de monedas
+    const table = document.createElement('table');
+    table.className = 'currencies-table centered-table';
+    
+    // Crear encabezado de tabla
+    const thead = document.createElement('thead');
+    const headerRow = document.createElement('tr');
+    
+    // Agregar celdas de encabezado
+    ['Código', 'Nombre', 'Tasa (USD)'].forEach(text => {
+        const th = document.createElement('th');
+        th.textContent = text;
+        th.className = 'centered-cell';
+        headerRow.appendChild(th);
+    });
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+    
+    // Crear cuerpo de tabla
+    const tbody = document.createElement('tbody');
+    const currencies = this.converter.getAllCurrencies();
+    
+    if (currencies.length === 0) {
+        const emptyRow = document.createElement('tr');
+        const emptyCell = document.createElement('td');
+        emptyCell.colSpan = 3;
+        emptyCell.className = 'no-currencies-message centered-cell';
+        emptyCell.textContent = 'No hay monedas disponibles';
+        emptyRow.appendChild(emptyCell);
+        tbody.appendChild(emptyRow);
+    } else {
+        currencies.forEach(currency => {
+            const row = document.createElement('tr');
+            
+            // Celda de código
+            const codeCell = document.createElement('td');
+            codeCell.className = 'currency-code-cell centered-cell';
+            codeCell.textContent = currency.codigo;
+            row.appendChild(codeCell);
+            
+            // Celda de nombre
+            const nameCell = document.createElement('td');
+            nameCell.className = 'currency-name-cell centered-cell';
+            nameCell.textContent = currency.nombre;
+            row.appendChild(nameCell);
+            
+            // Celda de tasa
+            const rateCell = document.createElement('td');
+            rateCell.className = 'currency-rate-cell centered-cell';
+            rateCell.textContent = currency.tasa;
+            row.appendChild(rateCell);
+            
+            tbody.appendChild(row);
+        });
+    }
+    
+    table.appendChild(tbody);
+    tableContainer.appendChild(table);
+    
+    // Filtrar monedas al buscar
+    searchInput.addEventListener('input', () => {
+        const searchTerm = searchInput.value.toLowerCase();
+        const rows = tbody.querySelectorAll('tr');
+        
+        rows.forEach(row => {
+            if (row.querySelector('.no-currencies-message')) return;
+            
+            const code = row.querySelector('.currency-code-cell')?.textContent.toLowerCase() || '';
+            const name = row.querySelector('.currency-name-cell')?.textContent.toLowerCase() || '';
+            
+            if (code.includes(searchTerm) || name.includes(searchTerm)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    });
+    
+    document.body.appendChild(currenciesPanel);
+    currenciesPanel.offsetHeight; // Force reflow
+    currenciesPanel.classList.add('show');
+}
