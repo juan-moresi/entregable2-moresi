@@ -548,3 +548,44 @@ class ChatBot {
     currenciesPanel.offsetHeight; // Force reflow
     currenciesPanel.classList.add('show');
 }
+
+// Agrega botón para borrar chat
+addClearChatButton() {
+    const chatHeader = document.querySelector('.chat-header');
+    if (!chatHeader) return;
+    
+    // Eliminar botones existentes
+    const existingButtons = document.querySelectorAll('#clearChatBtn');
+    existingButtons.forEach(button => button.remove());
+    
+    // Crear botón si no existe
+    if (!document.getElementById('clearChatBtn')) {
+        const clearChatBtn = document.createElement('button');
+        clearChatBtn.id = 'clearChatBtn';
+        clearChatBtn.textContent = this.messages.botones.borrarChat;
+        
+        const boundClearChat = this.clearChat.bind(this);
+        clearChatBtn.addEventListener('click', boundClearChat);
+        
+        chatHeader.appendChild(clearChatBtn);
+    }
+}
+
+// Borra todos los mensajes
+clearChat() {
+    const confirmClear = confirm('¿Estás seguro de que quieres borrar todo el chat?');
+    
+    if (confirmClear) {
+        const messagesDiv = document.getElementById('chatMessages');
+        if (messagesDiv) {
+            messagesDiv.innerHTML = '';
+            
+            // Reiniciar estados
+            this.conversionState = { step: 0, amount: null, fromCurrency: null, toCurrency: null };
+            this.addCurrencyState = { step: null, nombre: null, codigo: null };
+            
+            // Mostrar mensaje de bienvenida
+            this.addMessage(`${this.messages.mensajes.bienvenida} ${this.userName}! ${this.messages.mensajes.instruccion}`, 'bot');
+        }
+    }
+}
