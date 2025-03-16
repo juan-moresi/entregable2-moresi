@@ -690,3 +690,28 @@ initAutocomplete() {
         }
     });
 }
+
+// Agrega moneda desde formulario
+addCurrencyFromForm(name, code, rate) {
+    try {
+        // Validar entradas
+        if (!name || !code || !rate) return false;
+        
+        code = code.toUpperCase();
+        rate = parseFloat(rate);
+        
+        if (code.length !== 3 || isNaN(rate) || rate <= 0) return false;
+        
+        this.addNewCurrency(name, code, rate);
+        this.addMessage(`Moneda ${code} (${name}) agregada exitosamente.`, 'bot');
+        
+        return true;
+    } catch (error) {
+        console.error('Error adding currency:', error);
+        this.addMessage('Ocurrió un error al agregar la moneda.', 'bot');
+        return false;
+    }
+}
+}
+
+export default ChatBot;
